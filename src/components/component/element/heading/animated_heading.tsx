@@ -2,8 +2,9 @@ import type { HeadingLayoutProps, AnimatedHeadingLayoutProps, HeadingComponent }
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import AnimatedText from "@/components/shared/animated_text"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
+import {generateAiText} from "@/components/openAi";
 
-export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = ({ data: { headingText }, layoutProps, className, ...containerProps }) => {
+export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText }, layoutProps, className, ...containerProps }) => {
     const cssClasses : string[] = []
     const { textAlign, headingType, delay: delayValue } = extractSettings(layoutProps)
     
@@ -44,8 +45,10 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
 
+    const aiText = await generateAiText('people under 50', headingText);
+
     return <div className={ (`${ className } prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim() } { ...containerProps }>
-        <AnimatedText el={ Component } text={ headingText ?? "" } delay={ delay } />
+        <AnimatedText el={ Component } text={ aiText ?? headingText } delay={ delay } />
     </div>
 }
 
