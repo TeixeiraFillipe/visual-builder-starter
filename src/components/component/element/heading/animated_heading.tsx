@@ -45,7 +45,7 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
 
-    const aiText = await generateAiText('people under 50', headingText);
+    const aiText = await generateAiText('people under 20', headingText);
 
     return <div className={ (`${ className } prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim() } { ...containerProps }>
         <AnimatedText el={ Component } text={ aiText ?? headingText } delay={ delay } />
