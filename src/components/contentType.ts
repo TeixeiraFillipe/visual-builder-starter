@@ -1,3 +1,5 @@
+'use server';
+
 import getToken from "./auth";
 
 const getContentType = () => {
@@ -30,31 +32,36 @@ const getContentType = () => {
 
 const createContentType = async (content: any): Promise<string> => {
     const body = {
-        "properties": content.properties,
-        "key": content.key,
-        "displayName": content.displayName,
-        "baseType": "component",
-        "usage": ["property"]
+        properties: content.properties,
+        key: content.key,
+        displayName: content.displayName,
+        baseType: "component",
+        usage: ["property"]
     };
     const token = await getToken();
     return new Promise((resolve, reject) => {
         const url = new URL("https://app-ocxcdaoru1z58p003.cms.optimizely.com/_cms/preview2/contenttypes");
         fetch(url.href, {
             method: "POST",
-            credentials: "include",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Authorization": `Bearer: ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(body)
         })
             .then(async (response) => {
                 if (!response.ok) {
-                    reject(`Error: ${response.statusText}`);
+                    try {
+                        const errorData = await response.json();
+                        reject(`Error: ${errorData.message || response.statusText}`);
+                    } catch (err) {
+                        const errorText = await response.text();
+                        reject(`Error: ${errorText || response.statusText}`);
+                    }
                     return;
                 }
                 const data = await response.json();
-                if (data && data.key) {
+                if (data && data) {
                     resolve(data);
                 } else {
                     reject("Error: Could not create the new content type.");
@@ -66,4 +73,4 @@ const createContentType = async (content: any): Promise<string> => {
     });
 };
 
-export {getContentType, createContentType};
+export { getContentType, createContentType };
