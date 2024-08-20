@@ -21,7 +21,7 @@ const getContentType = () => {
                 if (data) {
                     resolve(data);
                 } else {
-                    reject("Error: Couldn't get the content types");
+                    reject("Error: Couldn't get the content type");
                 }
             })
             .catch((error) => {

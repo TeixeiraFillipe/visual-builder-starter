@@ -9,6 +9,24 @@ export const LinkDataFragmentDoc = /*#__PURE__*/ gql`
   default
 }
     `;
+export const LinkItemDataFragmentDoc = /*#__PURE__*/ gql`
+    fragment LinkItemData on Link {
+  title
+  text
+  target
+  url {
+    ...LinkData
+  }
+}
+    `;
+export const MenuContentFragmentDoc = /*#__PURE__*/ gql`
+    fragment MenuContent on NavigationMenuBlockProperty {
+  heading: MenuNavigationHeading
+  links: NavigationLinks {
+    ...LinkItemData
+  }
+}
+    `;
 export const IContentInfoFragmentDoc = /*#__PURE__*/ gql`
     fragment IContentInfo on IContentMetadata {
   key
@@ -58,6 +76,7 @@ export const CTAElementDataFragmentDoc = /*#__PURE__*/ gql`
 export const HeadingElementDataFragmentDoc = /*#__PURE__*/ gql`
     fragment HeadingElementData on HeadingElement {
   headingText
+  AIPrompt
 }
     `;
 export const ReferenceDataFragmentDoc = /*#__PURE__*/ gql`
@@ -196,16 +215,6 @@ export const ButtonBlockDataFragmentDoc = /*#__PURE__*/ gql`
   variant
 }
     `;
-export const LinkItemDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment LinkItemData on Link {
-  title
-  text
-  target
-  url {
-    ...LinkData
-  }
-}
-    `;
 export const NavigationMenuBlockDataFragmentDoc = /*#__PURE__*/ gql`
     fragment NavigationMenuBlockData on NavigationMenuBlock {
   title: MenuNavigationHeading
@@ -272,14 +281,6 @@ export const PageDataFragmentDoc = /*#__PURE__*/ gql`
   ...ArticlePageData
 }
     `;
-export const MenuContentFragmentDoc = /*#__PURE__*/ gql`
-    fragment MenuContent on NavigationMenuBlockProperty {
-  heading: MenuNavigationHeading
-  links: NavigationLinks {
-    ...LinkItemData
-  }
-}
-    `;
 export const getContentTypeDocument = /*#__PURE__*/ gql`
     query getContentType($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
   content: _Content(
@@ -295,83 +296,6 @@ export const getContentTypeDocument = /*#__PURE__*/ gql`
   }
 }
     `;
-export const getContentByIdDocument = /*#__PURE__*/ gql`
-    query getContentById($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
-  content: _Content(
-    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
-    locale: $locale
-  ) {
-    total
-    items {
-      ...BlockData
-      ...PageData
-    }
-  }
-}
-    ${BlockDataFragmentDoc}
-${IContentDataFragmentDoc}
-${IContentInfoFragmentDoc}
-${LinkDataFragmentDoc}
-${CardBlockDataFragmentDoc}
-${ReferenceDataFragmentDoc}
-${ButtonBlockPropertyDataFragmentDoc}
-${OfficeLocationDataFragmentDoc}
-${ButtonBlockDataFragmentDoc}
-${MegaMenuGroupBlockDataFragmentDoc}
-${NavigationMenuBlockDataFragmentDoc}
-${LinkItemDataFragmentDoc}
-${PageDataFragmentDoc}
-${BlankExperienceDataFragmentDoc}
-${ExperienceDataFragmentDoc}
-${CompositionDataFragmentDoc}
-${ElementDataFragmentDoc}
-${IElementDataFragmentDoc}
-${ArticleListElementDataFragmentDoc}
-${CTAElementDataFragmentDoc}
-${HeadingElementDataFragmentDoc}
-${ImageElementDataFragmentDoc}
-${ParagraphElementDataFragmentDoc}
-${TestimonialElementDataFragmentDoc}
-${ArticleGroupPageDataFragmentDoc}
-${ArticlePageDataFragmentDoc}`;
-export const getContentByPathDocument = /*#__PURE__*/ gql`
-    query getContentByPath($path: String!, $version: String, $locale: [Locales!], $domain: String) {
-  content: _Content(
-    where: {_metadata: {url: {default: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}
-    locale: $locale
-  ) {
-    total
-    items {
-      ...PageData
-    }
-  }
-}
-    ${PageDataFragmentDoc}
-${IContentDataFragmentDoc}
-${IContentInfoFragmentDoc}
-${LinkDataFragmentDoc}
-${BlankExperienceDataFragmentDoc}
-${ExperienceDataFragmentDoc}
-${CompositionDataFragmentDoc}
-${ElementDataFragmentDoc}
-${IElementDataFragmentDoc}
-${ArticleListElementDataFragmentDoc}
-${CTAElementDataFragmentDoc}
-${HeadingElementDataFragmentDoc}
-${ImageElementDataFragmentDoc}
-${ReferenceDataFragmentDoc}
-${ParagraphElementDataFragmentDoc}
-${TestimonialElementDataFragmentDoc}
-${ArticleGroupPageDataFragmentDoc}
-${BlockDataFragmentDoc}
-${CardBlockDataFragmentDoc}
-${ButtonBlockPropertyDataFragmentDoc}
-${OfficeLocationDataFragmentDoc}
-${ButtonBlockDataFragmentDoc}
-${MegaMenuGroupBlockDataFragmentDoc}
-${NavigationMenuBlockDataFragmentDoc}
-${LinkItemDataFragmentDoc}
-${ArticlePageDataFragmentDoc}`;
 export const getArticleListElementItemsDocument = /*#__PURE__*/ gql`
     query getArticleListElementItems($count: Int, $locale: [Locales]) {
   ArticlePage(
@@ -544,6 +468,83 @@ export const getDictionaryDocument = /*#__PURE__*/ gql`
   }
 }
     `;
+export const getContentByIdDocument = /*#__PURE__*/ gql`
+    query getContentById($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
+  content: _Content(
+    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
+    locale: $locale
+  ) {
+    total
+    items {
+      ...BlockData
+      ...PageData
+    }
+  }
+}
+    ${BlockDataFragmentDoc}
+${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${CardBlockDataFragmentDoc}
+${ReferenceDataFragmentDoc}
+${ButtonBlockPropertyDataFragmentDoc}
+${OfficeLocationDataFragmentDoc}
+${ButtonBlockDataFragmentDoc}
+${MegaMenuGroupBlockDataFragmentDoc}
+${NavigationMenuBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}
+${PageDataFragmentDoc}
+${BlankExperienceDataFragmentDoc}
+${ExperienceDataFragmentDoc}
+${CompositionDataFragmentDoc}
+${ElementDataFragmentDoc}
+${IElementDataFragmentDoc}
+${ArticleListElementDataFragmentDoc}
+${CTAElementDataFragmentDoc}
+${HeadingElementDataFragmentDoc}
+${ImageElementDataFragmentDoc}
+${ParagraphElementDataFragmentDoc}
+${TestimonialElementDataFragmentDoc}
+${ArticleGroupPageDataFragmentDoc}
+${ArticlePageDataFragmentDoc}`;
+export const getContentByPathDocument = /*#__PURE__*/ gql`
+    query getContentByPath($path: String!, $version: String, $locale: [Locales!], $domain: String) {
+  content: _Content(
+    where: {_metadata: {url: {default: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}
+    locale: $locale
+  ) {
+    total
+    items {
+      ...PageData
+    }
+  }
+}
+    ${PageDataFragmentDoc}
+${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${BlankExperienceDataFragmentDoc}
+${ExperienceDataFragmentDoc}
+${CompositionDataFragmentDoc}
+${ElementDataFragmentDoc}
+${IElementDataFragmentDoc}
+${ArticleListElementDataFragmentDoc}
+${CTAElementDataFragmentDoc}
+${HeadingElementDataFragmentDoc}
+${ImageElementDataFragmentDoc}
+${ReferenceDataFragmentDoc}
+${ParagraphElementDataFragmentDoc}
+${TestimonialElementDataFragmentDoc}
+${ArticleGroupPageDataFragmentDoc}
+${BlockDataFragmentDoc}
+${CardBlockDataFragmentDoc}
+${ButtonBlockPropertyDataFragmentDoc}
+${OfficeLocationDataFragmentDoc}
+${ButtonBlockDataFragmentDoc}
+${MegaMenuGroupBlockDataFragmentDoc}
+${NavigationMenuBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}
+${ArticlePageDataFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -554,12 +555,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getContentType(variables: Schema.getContentTypeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentTypeQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentTypeQuery>(getContentTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentType', 'query', variables);
-    },
-    getContentById(variables: Schema.getContentByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByIdQuery>(getContentByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentById', 'query', variables);
-    },
-    getContentByPath(variables: Schema.getContentByPathQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByPathQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByPathQuery>(getContentByPathDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentByPath', 'query', variables);
     },
     getArticleListElementItems(variables?: Schema.getArticleListElementItemsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getArticleListElementItemsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getArticleListElementItemsQuery>(getArticleListElementItemsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getArticleListElementItems', 'query', variables);
@@ -581,6 +576,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getDictionary(variables: Schema.getDictionaryQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getDictionaryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getDictionaryQuery>(getDictionaryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDictionary', 'query', variables);
+    },
+    getContentById(variables: Schema.getContentByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByIdQuery>(getContentByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentById', 'query', variables);
+    },
+    getContentByPath(variables: Schema.getContentByPathQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByPathQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByPathQuery>(getContentByPathDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentByPath', 'query', variables);
     }
   };
 }

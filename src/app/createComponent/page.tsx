@@ -1,6 +1,6 @@
 "use client";
 import { createContentType } from "@/components/contentType";
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 export default function Component() {
   const [componentId, setComponentId] = useState('');
@@ -19,7 +19,13 @@ export default function Component() {
       displayName: componentName,
     }
     let response = await createContentType(component);
-    alert(`Component created: ${JSON.stringify(response)}`)
+    if (response) {
+      alert(`Component created: ${JSON.stringify(response)}`)
+      setComponentId('');
+      setComponentName('');
+    } else {
+      alert(`An error ocurred.`)
+    }
   }
 
   return (

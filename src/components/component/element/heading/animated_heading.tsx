@@ -4,7 +4,7 @@ import AnimatedText from "@/components/shared/animated_text"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
 import {generateAiText} from "@/components/openAi";
 
-export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText }, layoutProps, className, ...containerProps }) => {
+export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText, AIPrompt }, layoutProps, className, ...containerProps }) => {
     const cssClasses : string[] = []
     const { textAlign, headingType, delay: delayValue } = extractSettings(layoutProps)
     
@@ -45,7 +45,10 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
 
-    const aiText = await generateAiText('people under 20', headingText);
+    var aiText = null;
+    if (AIPrompt){
+        aiText = await generateAiText(AIPrompt, headingText);
+    }
 
     return <div className={ (`${ className } prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim() } { ...containerProps }>
         <AnimatedText el={ Component } text={ aiText ?? headingText } delay={ delay } />
