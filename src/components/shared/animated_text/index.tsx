@@ -3,7 +3,7 @@ import { Variant, motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 type AnimatedTextProps = {
-  text: string | string[];
+  text: string | string[] | null | undefined;
   el?: keyof JSX.IntrinsicElements;
   className?: string;
   once?: boolean;
