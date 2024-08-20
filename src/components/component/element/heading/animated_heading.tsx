@@ -46,7 +46,7 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
     }
 
     var aiText = null;
-    if (AIPrompt){
+    if (AIPrompt && headingText){
         aiText = await generateAiText(AIPrompt, headingText);
     }
 
