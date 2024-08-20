@@ -45,13 +45,13 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
 
-    var aiText = null;
+    var aiText = headingText ?? '';
     if (AIPrompt && headingText){
         aiText = await generateAiText(AIPrompt, headingText);
     }
 
     return <div className={ (`${ className } prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim() } { ...containerProps }>
-        <AnimatedText el={ Component } text={ aiText ?? headingText } delay={ delay } />
+        <AnimatedText el={ Component } text={ aiText } delay={ delay } />
     </div>
 }
 
