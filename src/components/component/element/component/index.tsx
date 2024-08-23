@@ -16,10 +16,12 @@ export const ComponentElement: CmsComponent<ComponentElementDataFragment> = asyn
         const contentLink = { ...items[0] }
         const fragmentData = contentLink;
         const contentType = items[0]._metadata.types;
-        const contentAraeItemContent = await CmsContent({ contentLink, contentType, fragmentData, client: gqlClient, factory, outputEditorWarning: inEditMode, contentTypePrefix: "Component" });
+        const block = await CmsContent({ contentLink, contentType, fragmentData, client: gqlClient, factory, outputEditorWarning: inEditMode, contentTypePrefix: "Component" });
         return (
             <CmsEditable as="div" className="text-5xl">
-                <CmsEditable as="div" className='component' children={contentAraeItemContent} cmsId={content.key}></CmsEditable>
+                <CmsEditable as="div" className='component' cmsId={content.key}>
+                    {block}
+                </CmsEditable>
             </CmsEditable>
         );
     }
