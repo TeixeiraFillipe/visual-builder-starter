@@ -1,8 +1,9 @@
+import { generateAiText } from '@/components/openAi'
 import type { HeadingLayoutProps, DefaultHeadingLayoutProps, HeadingComponent } from './types'
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
 
-export const DefaultHeadingElement : HeadingComponent<HeadingElementDataFragment, DefaultHeadingLayoutProps> = ({ data: { headingText }, layoutProps, className, ...containerProps }) => {
+export const DefaultHeadingElement : HeadingComponent<HeadingElementDataFragment, DefaultHeadingLayoutProps> = async ({ data: { headingText, AIPrompt }, layoutProps, className, ...containerProps }) => {
     const { headingType, showAs, textAlign, transform } = extractSettings(layoutProps)
     const cssClasses : (string | undefined)[] = [ className, 'flex-initial' ]
     const Component = showAs == 'element' ? 'p' : !headingType || headingType == 'plain' ? 'p' : headingType
@@ -75,7 +76,12 @@ export const DefaultHeadingElement : HeadingComponent<HeadingElementDataFragment
 
     const cssClassName = cssClasses.filter(x => x).join(' ')
 
-    return <Component className={ cssClassName } {...containerProps}>{ headingText }</Component>
+    var text = headingText ?? '';
+    if (AIPrompt && headingText){
+        text = await generateAiText(AIPrompt, headingText);
+    }
+
+    return <Component className={ cssClassName } {...containerProps}>{ text }</Component>
 }
 
 export function isDefaultTemplate(props?: HeadingLayoutProps | null) : props is DefaultHeadingLayoutProps

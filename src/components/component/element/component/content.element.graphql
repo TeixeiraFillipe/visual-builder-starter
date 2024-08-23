@@ -1,0 +1,6 @@
+fragment ComponentElementData on ComponentElement
+{
+  Content {
+    ...ReferenceData
+  }
+}

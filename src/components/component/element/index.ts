@@ -4,6 +4,7 @@ import HeadingElement from './heading'
 import ImageElement from './image'
 import ParagraphElement from './paragraph'
 import TestimonialElement from './testimonial'
+import ComponentElement from './component'
 
 export const ElementList: ComponentTypeDictionary = [{
     type: 'CTAElement',
@@ -20,6 +21,9 @@ export const ElementList: ComponentTypeDictionary = [{
 }, {
     type: 'TestimonialElement',
     component: TestimonialElement
+}, {
+    type: 'ComponentElement',
+    component: ComponentElement
 }]
 
 export default ElementList

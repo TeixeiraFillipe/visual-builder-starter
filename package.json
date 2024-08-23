@@ -15,7 +15,8 @@
     "compile": "yarn graphql-codegen",
     "watch": "yarn graphql-codegen -w",
     "styles:push": "yarn opti-cms styles:push --components=src/components",
-    "styles:list": "yarn opti-cms styles:list"
+    "styles:list": "yarn opti-cms styles:list",
+    "generate": "yarn graphql-codegen && node generateComponentDictionary.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.36",

@@ -65,6 +65,21 @@ export const ArticleListElementDataFragmentDoc = /*#__PURE__*/ gql`
   articleListCount
 }
     `;
+export const ReferenceDataFragmentDoc = /*#__PURE__*/ gql`
+    fragment ReferenceData on ContentReference {
+  key
+  url {
+    ...LinkData
+  }
+}
+    `;
+export const ComponentElementDataFragmentDoc = /*#__PURE__*/ gql`
+    fragment ComponentElementData on ComponentElement {
+  Content {
+    ...ReferenceData
+  }
+}
+    `;
 export const CTAElementDataFragmentDoc = /*#__PURE__*/ gql`
     fragment CTAElementData on CTAElement {
   text: Text
@@ -77,14 +92,6 @@ export const HeadingElementDataFragmentDoc = /*#__PURE__*/ gql`
     fragment HeadingElementData on HeadingElement {
   headingText
   AIPrompt
-}
-    `;
-export const ReferenceDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment ReferenceData on ContentReference {
-  key
-  url {
-    ...LinkData
-  }
 }
     `;
 export const ImageElementDataFragmentDoc = /*#__PURE__*/ gql`
@@ -119,6 +126,7 @@ export const ElementDataFragmentDoc = /*#__PURE__*/ gql`
     fragment ElementData on _IElement {
   ...IElementData
   ...ArticleListElementData
+  ...ComponentElementData
   ...CTAElementData
   ...HeadingElementData
   ...ImageElementData
@@ -192,6 +200,17 @@ export const CardBlockDataFragmentDoc = /*#__PURE__*/ gql`
   layout: CardImageLayout
 }
     `;
+export const HeroBannerDataFragmentDoc = /*#__PURE__*/ gql`
+    fragment HeroBannerData on HeroBanner {
+  Title
+  Subtitle
+}
+    `;
+export const HeroBlockDataFragmentDoc = /*#__PURE__*/ gql`
+    fragment HeroBlockData on HeroBlock {
+  heading
+}
+    `;
 export const OfficeLocationDataFragmentDoc = /*#__PURE__*/ gql`
     fragment OfficeLocationData on OfficeLocation {
   title: OfficeTitle
@@ -241,6 +260,8 @@ export const BlockDataFragmentDoc = /*#__PURE__*/ gql`
     fragment BlockData on _IContent {
   ...IContentData
   ...CardBlockData
+  ...HeroBannerData
+  ...HeroBlockData
   ...OfficeLocationData
   ...ButtonBlockData
   ...MegaMenuGroupBlockData
@@ -488,6 +509,8 @@ ${LinkDataFragmentDoc}
 ${CardBlockDataFragmentDoc}
 ${ReferenceDataFragmentDoc}
 ${ButtonBlockPropertyDataFragmentDoc}
+${HeroBannerDataFragmentDoc}
+${HeroBlockDataFragmentDoc}
 ${OfficeLocationDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}
@@ -500,6 +523,7 @@ ${CompositionDataFragmentDoc}
 ${ElementDataFragmentDoc}
 ${IElementDataFragmentDoc}
 ${ArticleListElementDataFragmentDoc}
+${ComponentElementDataFragmentDoc}
 ${CTAElementDataFragmentDoc}
 ${HeadingElementDataFragmentDoc}
 ${ImageElementDataFragmentDoc}
@@ -529,16 +553,19 @@ ${CompositionDataFragmentDoc}
 ${ElementDataFragmentDoc}
 ${IElementDataFragmentDoc}
 ${ArticleListElementDataFragmentDoc}
+${ComponentElementDataFragmentDoc}
+${ReferenceDataFragmentDoc}
 ${CTAElementDataFragmentDoc}
 ${HeadingElementDataFragmentDoc}
 ${ImageElementDataFragmentDoc}
-${ReferenceDataFragmentDoc}
 ${ParagraphElementDataFragmentDoc}
 ${TestimonialElementDataFragmentDoc}
 ${ArticleGroupPageDataFragmentDoc}
 ${BlockDataFragmentDoc}
 ${CardBlockDataFragmentDoc}
 ${ButtonBlockPropertyDataFragmentDoc}
+${HeroBannerDataFragmentDoc}
+${HeroBlockDataFragmentDoc}
 ${OfficeLocationDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}

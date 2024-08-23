@@ -9,7 +9,7 @@ import ButtonBlock from '@/components/component/block/button_block'
  * Card Component
  * Reusable card component
  */
-export const CardBlockComponent : CmsComponent<CardBlockDataFragment> = ({ data: { layout: imageLayout = "before", image, heading = "", subheading = "", description = {json: null}, color = "blue", link: button, icon }, inEditMode }) => {
+export const CardBlock : CmsComponent<CardBlockDataFragment> = ({ data: { layout: imageLayout = "before", image, heading = "", subheading = "", description = {json: null}, color = "blue", link: button, icon }, inEditMode }) => {
     const additionalClasses: string[] = [];
     const innerClasses: string[] = [];
     const buttonClasses : string[] = [];
@@ -88,10 +88,10 @@ export const CardBlockComponent : CmsComponent<CardBlockDataFragment> = ({ data:
     </div>
 </section>);
 }
-CardBlockComponent.displayName = "Card Component (Component/CardBlock)"
-CardBlockComponent.getDataFragment = () => ['CardBlockData', CardBlockDataFragmentDoc]
+CardBlock.displayName = "Card Component (Component/CardBlock)"
+CardBlock.getDataFragment = () => ['CardBlockData', CardBlockDataFragmentDoc]
 
-export default CardBlockComponent
+export default CardBlock
 
 function isButtonBlock(toTest ?: Record<string, any> | null) : toTest is ButtonBlockPropertyDataFragment
 {

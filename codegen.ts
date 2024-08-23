@@ -18,11 +18,45 @@ envFiles.map(s => path.join(process.cwd(), s)).filter(s => fs.existsSync(s)).rev
     console.log(`${ chalk.greenBright(figures.tick) } Processed ${fileName}`)
 })
 
-// Actual code generation setup
+const fragmentRegex = /fragment\s+([\w\d_]+)\s+on\s+([\w\d_]+)\s*{[^}]*}/g
+
+function extractFragmentsFromFile(filePath: string): string[] {
+    const content = fs.readFileSync(filePath, 'utf8')
+    const fragments: string[] = []
+    let match
+    while ((match = fragmentRegex.exec(content)) !== null) {
+        fragments.push(match[0])
+    }
+    return fragments
+}
+
+function getFilesMatchingPattern(pattern: string): string[] {
+    const glob = require('glob')
+    return glob.sync(pattern)
+}
+
+function collectBlockFragments(): string[] {
+    const fragmentFiles = [
+        ...getFilesMatchingPattern('src/components/cms/component/**/*.tsx'),
+    ]
+
+    let allFragments: string[] = []
+    fragmentFiles.forEach(file => {
+        const fragments = extractFragmentsFromFile(file)
+        allFragments = allFragments.concat(fragments)
+    })
+
+    return allFragments
+}
+
 import { CodegenConfig } from '@graphql-codegen/cli'
 import getSchemaInfo from '@remkoj/optimizely-graph-client/codegen'
 import OptimizelyGraphPreset, { type PresetOptions as OptimizelyGraphPresetConfig } from '@remkoj/optimizely-graph-functions/preset'
  
+const blockFragments = collectBlockFragments()
+const fragmentsFilePath = path.join(process.cwd(), 'src/components/cms/component/fragments/fragments.component.graphql');
+fs.writeFileSync(fragmentsFilePath, blockFragments.join('\n\n'), 'utf8');
+
 const config: CodegenConfig = {
   schema: getSchemaInfo(),
   documents: [

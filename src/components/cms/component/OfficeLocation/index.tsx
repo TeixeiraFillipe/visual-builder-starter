@@ -6,7 +6,7 @@ import { PhoneIcon, AtSymbolIcon } from '@heroicons/react/24/solid'
  * Office Location
  * 
  */
-export const OfficeLocationComponent : CmsComponent<OfficeLocationDataFragment> = ({ data }) => {
+export const OfficeLocation : CmsComponent<OfficeLocationDataFragment> = ({ data }) => {
     return <address className="prose bg-white p-10 rounded-[20px]">
         <span className="font-bold border-b-[1px] border-b-slate-900 inline-block w-full pb-2 mb-2">{ data.title ?? '' }</span><br/>
         { data.street1 && <>{ data.street1 }<br/></> }
@@ -18,7 +18,7 @@ export const OfficeLocationComponent : CmsComponent<OfficeLocationDataFragment> 
         { data.phone && <a href={`tel:${ data.phone }`} className="no-underline"><PhoneIcon className="inline-block h-6 w-6" /> { data.phone }<br/></a> }
     </address>
 }
-OfficeLocationComponent.displayName = "Office Location (Component/OfficeLocation)"
-OfficeLocationComponent.getDataFragment = () => ['OfficeLocationData', OfficeLocationDataFragmentDoc]
+OfficeLocation.displayName = "Office Location (Component/OfficeLocation)"
+OfficeLocation.getDataFragment = () => ['OfficeLocationData', OfficeLocationDataFragmentDoc]
 
-export default OfficeLocationComponent
+export default OfficeLocation

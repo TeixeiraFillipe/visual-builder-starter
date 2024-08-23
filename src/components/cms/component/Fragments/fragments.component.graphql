@@ -1,0 +1,8 @@
+fragment HeroBannerData on HeroBanner {
+        Title
+        Subtitle
+    }
+
+fragment HeroBlockData on HeroBlock {
+        heading
+    }
