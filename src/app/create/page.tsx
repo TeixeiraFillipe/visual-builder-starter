@@ -1,30 +1,32 @@
 "use client";
-import { createContentType } from "@/components/contentType";
+import { updateContent } from "@/components/contentType";
 import React, { useState } from "react";
 
-export default function Component() {
+export default function Create() {
   const [componentId, setComponentId] = useState('');
   const [componentName, setComponentName] = useState('');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const component = {
-      properties: {
-        Title: {
-          type: "string",
-          displayName: "Title"
-        }
-      },
-      key: componentId,
-      displayName: componentName,
-    }
-    let response = await createContentType(component);
-    if (response) {
-      alert(`Component created: ${JSON.stringify(response)}`)
-      setComponentId('');
-      setComponentName('');
-    } else {
-      alert(`An error ocurred.`)
+    try {
+      const response = await fetch('/api/createComponent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentId, componentName }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Command executed successfully');
+        updateContent(componentName);
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      alert('Something went wrong');
     }
   }
 
