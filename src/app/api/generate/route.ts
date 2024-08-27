@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 
-export async function POST() {
+export async function POST(): Promise<Response> {
   try {
     const command = 'yarn generate';
 

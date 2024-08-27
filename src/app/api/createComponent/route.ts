@@ -6,7 +6,7 @@ type RequestData = {
     componentName: string;
 };
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
     try {
         const { componentId, componentName } = (await request.json()) as RequestData;
         return new Promise((resolve, reject) => {
