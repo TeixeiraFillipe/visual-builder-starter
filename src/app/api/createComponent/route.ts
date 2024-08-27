@@ -11,11 +11,13 @@ export async function POST(request: Request): Promise<Response> {
         const { componentId, componentName } = (await request.json()) as RequestData;
         return new Promise((resolve, reject) => {
             const command = spawn('npx', ['v0', 'add', componentId]);
+            console.log(command);
 
             let output = '';
             let errorOutput = '';
 
             command.stdout.on('data', (data) => {
+                console.log(data);
                 output += data.toString();
                 if (output.includes('component')) {
                     command.stdin.write(`${componentName}\n`);
