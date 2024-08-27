@@ -20,13 +20,13 @@ export default function Create() {
       const result = await response.json();
 
       if (response.ok) {
-        alert('Command executed successfully');
+        console.log('Command executed successfully');
         updateContent(componentName);
       } else {
-        alert(`Error: ${result.error}`);
+        console.log(`Error: ${result.error}`);
       }
     } catch (error) {
-      alert('Something went wrong');
+      console.error('Something went wrong');
     }
   }
 
@@ -34,8 +34,8 @@ export default function Create() {
     <div className="flex flex-col items-center justify-center p-[120px] bg-background">
       <div className="max-w-lg w-full space-y-6 p-6 rounded-lg shadow-lg bg-card bg-white">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-foreground">Create a Component</h1>
-          <p className="text-muted-foreground">Enter the details below to create a new component.</p>
+          <h1 className="text-3xl font-bold">Create a Component</h1>
+          <p>Enter the details below to create a new component.</p>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid gap-1.5">
