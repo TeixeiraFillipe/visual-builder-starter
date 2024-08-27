@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 
 type RequestData = {
     componentId: string;
@@ -9,38 +9,27 @@ type RequestData = {
 export async function POST(request: Request): Promise<Response> {
     try {
         const { componentId, componentName } = (await request.json()) as RequestData;
-        return new Promise((resolve, reject) => {
-            const command = spawn('npx', ['v0', 'add', componentId]);
-            console.log(command);
+        const command = `npx v0 add ${componentId} --name=${componentName}`;
 
-            let output = '';
-            let errorOutput = '';
-
-            command.stdout.on('data', (data) => {
-                console.log(data);
-                output += data.toString();
-                if (output.includes('component')) {
-                    command.stdin.write(`${componentName}\n`);
-                }
-            });
-
-            command.stderr.on('data', (data) => {
-                errorOutput += data.toString();
-            });
-
-            command.on('close', (code) => {
-                if (code === 0) {
-                    resolve(NextResponse.json({ message: 'Command executed successfully' }, { status: 200 }));
+        const result = await new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    reject({ stdout, stderr: error.message });
                 } else {
-                    reject(NextResponse.json({ error: `Command failed with code ${code}`, errorOutput }, { status: 500 }));
+                    resolve({ stdout, stderr });
                 }
-            });
-
-            command.on('error', (err) => {
-                reject(NextResponse.json({ error: err.message }, { status: 500 }));
             });
         });
+
+        if (result.stderr) {
+            console.error(`Command stderr: ${result.stderr}`);
+            return NextResponse.json({ error: result.stderr }, { status: 500 });
+        }
+
+        console.log(`Command stdout: ${result.stdout}`);
+        return NextResponse.json({ message: result.stdout }, { status: 200 });
     } catch (error) {
+        console.error(`Error: ${error}`);
         return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
     }
 }
