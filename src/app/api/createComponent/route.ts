@@ -21,10 +21,10 @@ export async function POST(request: Request): Promise<Response> {
             });
         });
 
-        if (result.stderr) {
-            console.error(`Command stderr: ${result.stderr}`);
-            return NextResponse.json({ error: result.stderr }, { status: 500 });
-        }
+        // if (result.stderr) {
+        //     console.error(`Command stderr: ${result.stderr}`);
+        //     return NextResponse.json({ error: result.stderr }, { status: 500 });
+        // }
 
         console.log(`Command stdout: ${result.stdout}`);
         return NextResponse.json({ message: result.stdout }, { status: 200 });
