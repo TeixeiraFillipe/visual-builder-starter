@@ -65,16 +65,13 @@ export default function Create() {
               onChange={(e) => setComponentName(e.target.value)}
             />
           </div>
-          {
-            loading ?
-              <>
-                Loading...
-              </>
+          <button type="submit" className="w-full bg-[#000] text-[#fff] rounded-[5px] p-2" disabled={loading}>
+            {loading ?
+              'Generating...'
               :
-              <button type="submit" className="w-full bg-[#000] text-[#fff] rounded-[5px] p-2">
-                Create Component
-              </button>
-          }
+              'Generate component'
+            }
+          </button>
         </form>
       </div>
     </div>

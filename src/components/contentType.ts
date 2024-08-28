@@ -78,9 +78,15 @@ const createContentType = async (content: any): Promise<string> => {
 
 const updateContent = async (componentName: string) => {
     const fs = require('fs');
-    const exampleFilePath = `src/components/cms/component/HeroBanner.tsx`
-    const newFilePath = `src/components/cms/component/${componentName}.tsx`
+    const basePath = 'src/components/cms/component/';
+    const exampleFilePath =  basePath + "HeroBanner.tsx";
+    const newFilePath = `${basePath + componentName}.tsx`
 
+    fs.rename(`${basePath + componentName.toLowerCase()}.tsx`, newFilePath, (err: any) => {
+        if (err) throw err;
+        console.log('File renamed successfully!');
+    });
+    
     try {
         fs.readFile(exampleFilePath, 'utf8', async (err: any, exampleData: any) => {
             if (err) {
@@ -96,7 +102,7 @@ const updateContent = async (componentName: string) => {
 
                 const { text } = await generateText({
                     model: openai('gpt-4o-mini'),
-                    prompt: `I need you to update a component. I'll give you an example of how it should look like, you're going to replace existing texts with variables, such as "Title" and "Subtitle" in my example. Do not update image url. Also you're going to add the same variables and the component name to the graphql fragment. This is the example: ${exampleData} and this is the component you need to update ${data}. The name of the component is ${componentName}. Just give me the update component code, without any other text.`,
+                    prompt: `I need you to update a component. I'll give you an example of how it should look like, you're going to replace existing texts with variables, such as "Title" and "Subtitle" in my example. Keep the CmsComponent import, as well as gql and type Schema. Do not update image src for avatar, keep the same. Also you're going to add the same variables and the component name to the graphql fragment. This is the example: ${exampleData} and this is the component you need to update ${data}. The name of the component is ${componentName}. Just give me the update component code, without any other text.`,
                 });
                 const code = text.replace(/```javascript/g, '').replace(/```json/g, '').replace(/```/g, '');
 
@@ -116,7 +122,7 @@ const updateContent = async (componentName: string) => {
 
                         const arr = JSON.parse(text.replace(/```javascript/g, '').replace(/```json/g, '').replace(/```/g, ''));
                         const component = {
-                            properties: arr.reduce((acc: { [x: string]: { type: string; displayName: any; }; }, curr: string | number) => {
+                            properties: arr.reverse().reduce((acc: { [x: string]: { type: string; displayName: any; }; }, curr: string | number) => {
                                 acc[curr] = {
                                     type: "string",
                                     displayName: curr
