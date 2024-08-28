@@ -20,9 +20,8 @@ const documents = {
     "fragment ExperienceData on _IExperience {\n  composition {\n    ...CompositionData\n  }\n}": types.ExperienceDataFragmentDoc,
     "fragment IElementData on _IElement {\n  _metadata {\n    ...IContentInfo\n  }\n  _type: __typename\n}": types.IElementDataFragmentDoc,
     "fragment CardBlockData on CardBlock {\n  heading: CardHeading\n  subheading: CardSubheading\n  description: CardDescription {\n    json\n  }\n  icon: CardIcon {\n    ...ReferenceData\n  }\n  image: CardImage {\n    ...ReferenceData\n  }\n  link: CardButton {\n    ...ButtonBlockPropertyData\n  }\n  color: CardColor\n  layout: CardImageLayout\n}": types.CardBlockDataFragmentDoc,
-    "fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}\n\nfragment HeroBlockData on HeroBlock {\n  heading\n}": types.HeroBannerDataFragmentDoc,
+    "fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}": types.HeroBannerDataFragmentDoc,
     "\n    fragment HeroBannerData on HeroBanner {\n        Title\n        Subtitle\n    }": types.HeroBannerDataFragmentDoc,
-    "\n    fragment HeroBlockData on HeroBlock {\n        heading\n    }": types.HeroBlockDataFragmentDoc,
     "fragment OfficeLocationData on OfficeLocation {\n  title: OfficeTitle\n  street1: OfficeAddressStreet1\n  street2: OfficeAddressStreet2\n  postalcode: OfficeAddressPostalCode\n  city: OfficeAddressCity\n  country: OfficeAddressCountry\n  phone: OfficePhone\n  email: OfficeEmail\n}": types.OfficeLocationDataFragmentDoc,
     "fragment ArticleListElementData on ArticleListElement {\n  articleListCount\n}": types.ArticleListElementDataFragmentDoc,
     "query getArticleListElementItems($count: Int, $locale: [Locales]) {\n  ArticlePage(\n    orderBy: {_metadata: {published: DESC}}\n    limit: $count\n    locale: $locale\n    where: {_metadata: {status: {eq: \"Published\"}}}\n  ) {\n    items {\n      ...IContentData\n      articleTitle\n      articleMeta: _metadata {\n        key\n        published\n        lastModified\n      }\n      articleAuthors\n      articleSummary {\n        json\n      }\n      articleHeroImage {\n        ...ReferenceData\n      }\n    }\n  }\n}": types.getArticleListElementItemsDocument,
@@ -101,15 +100,11 @@ export function gql(source: "fragment CardBlockData on CardBlock {\n  heading: C
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}\n\nfragment HeroBlockData on HeroBlock {\n  heading\n}"): (typeof documents)["fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}\n\nfragment HeroBlockData on HeroBlock {\n  heading\n}"];
+export function gql(source: "fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}"): (typeof documents)["fragment HeroBannerData on HeroBanner {\n  Title\n  Subtitle\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    fragment HeroBannerData on HeroBanner {\n        Title\n        Subtitle\n    }"): (typeof documents)["\n    fragment HeroBannerData on HeroBanner {\n        Title\n        Subtitle\n    }"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n    fragment HeroBlockData on HeroBlock {\n        heading\n    }"): (typeof documents)["\n    fragment HeroBlockData on HeroBlock {\n        heading\n    }"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

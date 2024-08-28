@@ -2,7 +2,6 @@
 import { ComponentTypeDictionary } from "@remkoj/optimizely-cms-react";
 import CardBlock from "./CardBlock";
 import HeroBanner from "./HeroBanner";
-import HeroBlock from "./HeroBlock";
 import OfficeLocation from "./OfficeLocation";
 
 export const componentDictionary : ComponentTypeDictionary = [
@@ -13,10 +12,6 @@ export const componentDictionary : ComponentTypeDictionary = [
     {
         type: 'HeroBanner',
         component: HeroBanner
-    },
-    {
-        type: 'HeroBlock',
-        component: HeroBlock
     },
     {
         type: 'OfficeLocation',

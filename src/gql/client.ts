@@ -206,11 +206,6 @@ export const HeroBannerDataFragmentDoc = /*#__PURE__*/ gql`
   Subtitle
 }
     `;
-export const HeroBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment HeroBlockData on HeroBlock {
-  heading
-}
-    `;
 export const OfficeLocationDataFragmentDoc = /*#__PURE__*/ gql`
     fragment OfficeLocationData on OfficeLocation {
   title: OfficeTitle
@@ -261,7 +256,6 @@ export const BlockDataFragmentDoc = /*#__PURE__*/ gql`
   ...IContentData
   ...CardBlockData
   ...HeroBannerData
-  ...HeroBlockData
   ...OfficeLocationData
   ...ButtonBlockData
   ...MegaMenuGroupBlockData
@@ -510,7 +504,6 @@ ${CardBlockDataFragmentDoc}
 ${ReferenceDataFragmentDoc}
 ${ButtonBlockPropertyDataFragmentDoc}
 ${HeroBannerDataFragmentDoc}
-${HeroBlockDataFragmentDoc}
 ${OfficeLocationDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}
@@ -565,7 +558,6 @@ ${BlockDataFragmentDoc}
 ${CardBlockDataFragmentDoc}
 ${ButtonBlockPropertyDataFragmentDoc}
 ${HeroBannerDataFragmentDoc}
-${HeroBlockDataFragmentDoc}
 ${OfficeLocationDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}

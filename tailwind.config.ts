@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   darkMode: 'selector',
@@ -59,10 +60,13 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        heading: ['var(--font-heading)', ...fontFamily.sans],
+        body: ['var(--font-body)', ...fontFamily.sans]
+      },
       typography: {
         DEFAULT: {
           css: {
-            fontSize: '1.6rem',
             color: 'inherit',
             'h1': { color: 'inherit' },
             'h2': { color: 'inherit' },
@@ -86,8 +90,8 @@ const config: Config = {
     require('@tailwindcss/container-queries'),
     function({ addBase }: { addBase: any }) {
      addBase({
-        'html': { fontSize: "10px" },
-        'body': {fontSize: "1.6rem"}
+        'html': { fontSize: "16px" },
+        'body': {fontSize: "16px"}
       })
     },
     function ({ addBase, theme }: { addBase: any; theme: any }) {
