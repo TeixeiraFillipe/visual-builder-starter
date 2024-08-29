@@ -2,9 +2,9 @@ import type { HeadingLayoutProps, AnimatedHeadingLayoutProps, HeadingComponent }
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import AnimatedText from "@/components/shared/animated_text"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
-import Wrapper from '../../Wrapper';
+import { generateAiText } from '@/components/openAi'
 
-export const AnimatedHeadingElement: HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText, AIPrompt, ODP }, layoutProps, className, ...containerProps }) => {
+export const AnimatedHeadingElement: HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText, AIPrompt }, layoutProps, className, ...containerProps }) => {
     const cssClasses: string[] = []
     const { textAlign, headingType, delay: delayValue } = extractSettings(layoutProps)
 
@@ -45,10 +45,13 @@ export const AnimatedHeadingElement: HeadingComponent<HeadingElementDataFragment
             break;
     }
 
+    var text = headingText ?? '';
+    if (AIPrompt && headingText) {
+        text = await generateAiText(AIPrompt, headingText);
+    }
+
     return <div className={(`${className} prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim()} {...containerProps}>
-        <Wrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
-            <AnimatedText el={Component} text={headingText ?? ''} delay={delay} />
-        </Wrapper>
+        <AnimatedText el={Component} text={text} delay={delay} />
     </div>
 }
 

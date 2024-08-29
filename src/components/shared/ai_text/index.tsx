@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
-import { generateAiText } from '../openAi';
-import odpSegments from '../odpSegments';
+import { generateAiText } from '../../openAi';
+import odpSegments from '../../odpSegments';
 
 interface ChildProps {
     text?: string;
@@ -23,8 +23,8 @@ const parseSegments = (segments: any): string[] => {
     return segments.data.customer.audiences.edges.map((edge: any) => edge.node.description);
 }
 
-const Wrapper = ({ headingText, AIPrompt, ODP, children }: { headingText: string, AIPrompt: string, ODP: boolean, children: React.ReactNode }) => {
-    const [text, setText] = React.useState<string | undefined>('');
+const AITextWrapper = ({ headingText, AIPrompt, ODP, children }: { headingText: string, AIPrompt: string, ODP: boolean, children: React.ReactNode }) => {
+    const [text, setText] = React.useState<string | undefined>(headingText);
     const [isLoaded, setIsLoaded] = React.useState(false);
 
     React.useEffect(() => {
@@ -61,4 +61,4 @@ const Wrapper = ({ headingText, AIPrompt, ODP, children }: { headingText: string
     );
 }
 
-export default Wrapper;
+export default AITextWrapper;

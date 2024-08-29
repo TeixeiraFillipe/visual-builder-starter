@@ -1,5 +1,5 @@
 'use server';
-import { openai } from '@ai-sdk/openai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
 
 import getToken from "./auth";
@@ -81,9 +81,8 @@ const updateContent = async (componentName: string) => {
     const exampleFilePath =  basePath + "HeroBanner.tsx";
     const newFilePath = `${basePath + componentName}.tsx`
 
-    fs.rename(`${basePath + componentName.toLowerCase()}.tsx`, newFilePath, (err: any) => {
-        if (err) throw err;
-        console.log('File renamed successfully!');
+    const openai = createOpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY
     });
     
     try {

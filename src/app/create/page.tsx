@@ -23,8 +23,10 @@ export default function Create() {
 
       if (response.ok) {
         const response = await updateContent(componentName);
-        alert(response);
-        setLoading(false);
+        setTimeout(() => {
+          alert(response);
+          setLoading(false);
+        }, 8000);
       } else {
         alert(`Error: ${result.error}`);
         setLoading(false);

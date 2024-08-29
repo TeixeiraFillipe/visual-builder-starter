@@ -2,7 +2,7 @@ import type { HeadingLayoutProps, DefaultHeadingLayoutProps, HeadingComponent } 
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
 import Text from "@/components/shared/text"
-import Wrapper from '../../Wrapper'
+import AITextWrapper from '../../../shared/ai_text'
 
 export const DefaultHeadingElement: HeadingComponent<HeadingElementDataFragment, DefaultHeadingLayoutProps> = async ({ data: { headingText, AIPrompt, ODP }, layoutProps, className, ...containerProps }) => {
     const { headingType, showAs, textAlign, transform } = extractSettings(layoutProps)
@@ -80,10 +80,10 @@ export const DefaultHeadingElement: HeadingComponent<HeadingElementDataFragment,
     var text = headingText ?? '';
 
     return (
-        <Wrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
+        <AITextWrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
             <Text el={Component} text={headingText ?? ''} className={cssClassName} {...containerProps} />
             {/* <Component className={cssClassName} {...containerProps}>{text}</Component> */}
-        </Wrapper>)
+        </AITextWrapper>)
 }
 
 export function isDefaultTemplate(props?: HeadingLayoutProps | null): props is DefaultHeadingLayoutProps {
