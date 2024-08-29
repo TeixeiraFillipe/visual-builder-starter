@@ -92,6 +92,7 @@ export const HeadingElementDataFragmentDoc = /*#__PURE__*/ gql`
     fragment HeadingElementData on HeadingElement {
   headingText
   AIPrompt
+  ODP
 }
     `;
 export const ImageElementDataFragmentDoc = /*#__PURE__*/ gql`

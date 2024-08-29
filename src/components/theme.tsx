@@ -1,5 +1,6 @@
 'use client'
-import { createContext, useContext, useState, useMemo, useEffect, useLayoutEffect, type FunctionComponent, type PropsWithChildren } from 'react'
+import Script from 'next/script'
+import { createContext, useContext, useState, useEffect, useLayoutEffect, type FunctionComponent, type PropsWithChildren } from 'react'
 
 export type ThemeContextData = {
     theme: "light" | "dark" | "system",
@@ -52,7 +53,15 @@ export const ThemeProvider: FunctionComponent<PropsWithChildren<{ value: ThemeCo
 export const Body: FunctionComponent<JSX.IntrinsicElements['body']> = ({ className, children, ...props }) => {
     const { effectiveTheme } = useTheme()
     const themeClass = effectiveTheme == 'dark' ? 'dark' : ''
-    return <body className={`${ themeClass } ${ className }`.trim()} {...props}>{ children }</body>
+    return (
+        <>
+            <Script id="odp-integration" dangerouslySetInnerHTML={{
+                __html: `var zaius = window['zaius']||(window['zaius']=[]);zaius.methods=["initialize","onload","customer","entity","event","subscribe","unsubscribe","consent","identify","anonymize","dispatch"];zaius.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);zaius.push(t);return zaius}};(function(){for(var i=0;i<zaius.methods.length;i++){var method=zaius.methods[i];zaius[method]=zaius.factory(method)}var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src=("https:"===document.location.protocol?"https://":"http://")+"d1igp3oop3iho5.cloudfront.net/v2/qsSXbLFmfivSll3O4xqCMg/zaius-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+                // Edits to this script should only be made below this line.
+                zaius.event('pageview');`}} />
+            <body className={`${themeClass} ${className}`.trim()} {...props}>{children}</body>
+        </>
+    )
 }
 
 export default useTheme

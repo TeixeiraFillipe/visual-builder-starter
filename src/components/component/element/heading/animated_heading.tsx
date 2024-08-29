@@ -2,12 +2,12 @@ import type { HeadingLayoutProps, AnimatedHeadingLayoutProps, HeadingComponent }
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import AnimatedText from "@/components/shared/animated_text"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
-import {generateAiText} from "@/components/openAi";
+import Wrapper from '../../Wrapper';
 
-export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText, AIPrompt }, layoutProps, className, ...containerProps }) => {
-    const cssClasses : string[] = []
+export const AnimatedHeadingElement: HeadingComponent<HeadingElementDataFragment, AnimatedHeadingLayoutProps> = async ({ data: { headingText, AIPrompt, ODP }, layoutProps, className, ...containerProps }) => {
+    const cssClasses: string[] = []
     const { textAlign, headingType, delay: delayValue } = extractSettings(layoutProps)
-    
+
     switch (textAlign) {
         case 'left':
             cssClasses.push('text-left mr-auto')
@@ -25,7 +25,7 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
     const Component = !headingType || headingType == 'plain' ? 'p' : headingType
-    
+
     let delay = 0
     switch (delayValue) {
         case 'short':
@@ -45,17 +45,13 @@ export const AnimatedHeadingElement : HeadingComponent<HeadingElementDataFragmen
             break;
     }
 
-    var text = headingText ?? '';
-    if (AIPrompt && headingText){
-        text = await generateAiText(AIPrompt, headingText);
-    }
-
-    return <div className={ (`${ className } prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim() } { ...containerProps }>
-        <AnimatedText el={ Component } text={ text } delay={ delay } />
+    return <div className={(`${className} prose prose-h1:text-[72px] prose-p:text-[24px] prose-p:leading-tight ` + cssClasses.join(' ')).trim()} {...containerProps}>
+        <Wrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
+            <AnimatedText el={Component} text={headingText ?? ''} delay={delay} />
+        </Wrapper>
     </div>
 }
 
-export function isAnimatedTemplate(props?: HeadingLayoutProps | null) : props is AnimatedHeadingLayoutProps
-{
+export function isAnimatedTemplate(props?: HeadingLayoutProps | null): props is AnimatedHeadingLayoutProps {
     return props?.template == "AnimatedHeadingStyles"
 }

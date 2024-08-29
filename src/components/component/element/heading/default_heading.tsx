@@ -1,11 +1,12 @@
-import { generateAiText } from '@/components/openAi'
 import type { HeadingLayoutProps, DefaultHeadingLayoutProps, HeadingComponent } from './types'
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import { extractSettings } from "@remkoj/optimizely-cms-react/components"
+import Text from "@/components/shared/text"
+import Wrapper from '../../Wrapper'
 
-export const DefaultHeadingElement : HeadingComponent<HeadingElementDataFragment, DefaultHeadingLayoutProps> = async ({ data: { headingText, AIPrompt }, layoutProps, className, ...containerProps }) => {
+export const DefaultHeadingElement: HeadingComponent<HeadingElementDataFragment, DefaultHeadingLayoutProps> = async ({ data: { headingText, AIPrompt, ODP }, layoutProps, className, ...containerProps }) => {
     const { headingType, showAs, textAlign, transform } = extractSettings(layoutProps)
-    const cssClasses : (string | undefined)[] = [ className, 'flex-initial' ]
+    const cssClasses: (string | undefined)[] = [className, 'flex-initial']
     const Component = showAs == 'element' ? 'p' : !headingType || headingType == 'plain' ? 'p' : headingType
 
     switch (textAlign) {
@@ -77,14 +78,14 @@ export const DefaultHeadingElement : HeadingComponent<HeadingElementDataFragment
     const cssClassName = cssClasses.filter(x => x).join(' ')
 
     var text = headingText ?? '';
-    if (AIPrompt && headingText){
-        text = await generateAiText(AIPrompt, headingText);
-    }
 
-    return <Component className={ cssClassName } {...containerProps}>{ text }</Component>
+    return (
+        <Wrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
+            <Text el={Component} text={headingText ?? ''} className={cssClassName} {...containerProps} />
+            {/* <Component className={cssClassName} {...containerProps}>{text}</Component> */}
+        </Wrapper>)
 }
 
-export function isDefaultTemplate(props?: HeadingLayoutProps | null) : props is DefaultHeadingLayoutProps
-{
+export function isDefaultTemplate(props?: HeadingLayoutProps | null): props is DefaultHeadingLayoutProps {
     return props?.template == "HeadingStyles"
 }

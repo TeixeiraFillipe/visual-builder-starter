@@ -35,7 +35,7 @@ const documents = {
     "fragment ButtonBlockPropertyData on ButtonBlockProperty {\n  text\n  link {\n    ...LinkData\n  }\n  className\n  buttonType\n  variant\n}": types.ButtonBlockPropertyDataFragmentDoc,
     "fragment ComponentElementData on ComponentElement {\n  Content {\n    ...ReferenceData\n  }\n}": types.ComponentElementDataFragmentDoc,
     "fragment CTAElementData on CTAElement {\n  text: Text\n  link: Link {\n    ...LinkData\n  }\n}": types.CTAElementDataFragmentDoc,
-    "fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n}": types.HeadingElementDataFragmentDoc,
+    "fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n  ODP\n}": types.HeadingElementDataFragmentDoc,
     "fragment ImageElementData on ImageElement {\n  altText\n  imageLink {\n    ...ReferenceData\n  }\n}": types.ImageElementDataFragmentDoc,
     "fragment ParagraphElementData on ParagraphElement {\n    paragraph: text {\n        json\n    }\n}": types.ParagraphElementDataFragmentDoc,
     "fragment TestimonialElementData on TestimonialElement {\n  referenceTitle\n  referenceText {\n    json\n  }\n  customerName\n  customerLocation\n  customerImage {\n    ...ReferenceData\n  }\n}": types.TestimonialElementDataFragmentDoc,
@@ -160,7 +160,7 @@ export function gql(source: "fragment CTAElementData on CTAElement {\n  text: Te
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n}"): (typeof documents)["fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n}"];
+export function gql(source: "fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n  ODP\n}"): (typeof documents)["fragment HeadingElementData on HeadingElement {\n  headingText\n  AIPrompt\n  ODP\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
