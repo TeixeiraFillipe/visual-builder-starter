@@ -6,7 +6,7 @@ import getToken from "./auth";
 
 const getContentType = () => {
     return new Promise((resolve, reject) => {
-        const url = new URL("https://app-ocxcdaoru1z58p003.cms.optimizely.com/_cms/preview2/contenttypes");
+        const url = new URL(`${process.env.OPTIMIZELY_CMS_URL}/_cms/preview2/contenttypes`);
         fetch(url.href, {
             method: "GET",
             credentials: "include",
@@ -42,7 +42,7 @@ const createContentType = async (content: any): Promise<string> => {
     };
     const token = await getToken();
     return new Promise((resolve, reject) => {
-        const url = new URL("https://app-ocxcdaoru1z58p003.cms.optimizely.com/_cms/preview2/contenttypes");
+        const url = new URL(`${process.env.OPTIMIZELY_CMS_URL}/_cms/preview2/contenttypes`);
         fetch(url.href, {
             method: "POST",
             headers: {
