@@ -5,9 +5,7 @@ export async function POST(request: Request): Promise<Response> {
     const { vuid } = (await request.json());
     const HOSTNAME_ZAIUS_API = 'https://api.zaius.com/v3/graphql';
     const apiKey = process.env.ZAIUS_API_KEY ?? '';
-    const segments = ['customer_who_have_visited_any_page'];
-
-    var vuid2 = '566284d1b0c248b990a7a643a89dc480';
+    const segments = ['customers_who_are_interested_in_credit_cards', 'customers_who_are_interested_in_loans'];
 
     const response = await fetch(HOSTNAME_ZAIUS_API, {
       method: 'POST',
@@ -17,7 +15,7 @@ export async function POST(request: Request): Promise<Response> {
       },
       body: JSON.stringify({
         query: `query { 
-                        customer(vuid: "${vuid2}") { 
+                        customer(vuid: "${vuid}") { 
                             audiences(subset: ${JSON.stringify(segments)}) { 
                                 edges { 
                                     node {

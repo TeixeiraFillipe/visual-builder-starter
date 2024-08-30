@@ -20,7 +20,9 @@ const parseSegments = (segments: any): string[] => {
     if (!segments || !segments.data || !segments.data.customer || !segments.data.customer.audiences || !segments.data.customer.audiences.edges) {
         return [];
     }
-    return segments.data.customer.audiences.edges.map((edge: any) => edge.node.description);
+    const data = segments.data.customer.audiences.edges.map((edge: any) => edge.node.description);
+    console.log(data);
+    return data;
 }
 
 const AITextWrapper = ({ headingText, AIPrompt, ODP, children }: { headingText: string, AIPrompt: string, ODP: boolean, children: React.ReactNode }) => {
@@ -37,9 +39,12 @@ const AITextWrapper = ({ headingText, AIPrompt, ODP, children }: { headingText: 
                 vuid = vuidCookie ? vuidCookie.split('=')[1] : '';
                 const segmentsData = await getODPSegments(vuid);
                 segments = parseSegments(segmentsData);
-                console.log(segments);
-            }
-            if (AIPrompt && headingText) {
+                if(segments.length > 0) {
+                    const aiText = await generateAiText(`You are a helpful assistant that will generate a heading for a page based on the following segments: ${segments.join(', ')}. Do not include any preamble or introduction, just the heading.`, headingText);
+                    setText(aiText);
+                }
+                setIsLoaded(true);
+            } else if (!ODP && AIPrompt && headingText) {
                 setIsLoaded(false);
                 const aiText = await generateAiText(AIPrompt, headingText);
                 setText(aiText);

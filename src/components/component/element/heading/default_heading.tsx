@@ -82,7 +82,6 @@ export const DefaultHeadingElement: HeadingComponent<HeadingElementDataFragment,
     return (
         <AITextWrapper headingText={headingText ?? ''} AIPrompt={AIPrompt ?? ''} ODP={ODP ?? false} >
             <Text el={Component} text={headingText ?? ''} className={cssClassName} {...containerProps} />
-            {/* <Component className={cssClassName} {...containerProps}>{text}</Component> */}
         </AITextWrapper>)
 }
 

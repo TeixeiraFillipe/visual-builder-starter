@@ -1,7 +1,9 @@
 "use client";
 
-const odpSegments = async (vuid: string): Promise<any> => {
+const odpSegments = async (vuidCookie: string): Promise<any> => {
     try {
+        const formattedVuid = vuidCookie?.split('%')[0]?.replaceAll('-', '');
+        const vuid = formattedVuid?.substring(formattedVuid?.indexOf('=') + 1);
         const response = await fetch("/api/odp", {
             method: 'POST',
             headers: {
